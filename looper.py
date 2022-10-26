@@ -1,4 +1,5 @@
 import csv 
+import shutil
 from tkinter import *
 from tkinter import filedialog
 
@@ -74,26 +75,60 @@ else:
 increments = input('Increment by: ')
 increments_int = int(increments)
 answer = []
+# def saveFile():
+#     file = filedialog.asksaveasfile(
+#         defaultextension='.csv',
+#         filetypes=[
+#             ('CSV file', '.csv'),
+#             ('Text file', '.txt'),
+#             ('All files', '.*'),
+#         ])
+# shutil.copyfile('template.csv', 'copy.csv')
+
+toprows = ['Location', 'Description', 'Location Type',
+ 'Facility', 'IsShipping', 'IsRepair', 
+ 'IsHarvest','IsHarvestParentMove', 'IsHarvestCompnentMove'
+]
+# for i in range(len(locations)):
+#     single = locations[i]
+#     name_split = single.split("-")
+#     converted_num = int(name_split[3])
+#     print(single)
+#     f = open('copy.csv', 'a', newline='')
+#     writer = csv.writer(f)
+#     writer.writerow([single, single, location_type, facility, isShipping, isReceiving, isHarvest, isHarvestPMove, isHarvestCMove])
+#     for converted_num in range(increments_int):
+#         num = converted_num + 1
+#         double_digit = f'{num:02d}'
+#         name_split[3] = double_digit
+#         answer = '-'.join(name_split)
+#         writer.writerow([answer, answer, location_type, facility, isShipping, isReceiving, isHarvest, isHarvestPMove, isHarvestCMove])
+#         print(answer)
+#     f.close()
+
+f = filedialog.asksaveasfile(
+    defaultextension='.csv',
+    filetypes=[
+        ('CSV file', '.csv'),
+        ('Text file', '.txt'),
+        ('All files', '.*'),
+    ])
+writer = csv.writer(f)
+writer.writerow(['Location', 'Description', 'Location Type',
+ 'Facility', 'IsShipping', 'IsRepair', 
+ 'IsHarvest','IsHarvestParentMove', 'IsHarvestCompnentMove'
+])
 for i in range(len(locations)):
     single = locations[i]
     name_split = single.split("-")
     converted_num = int(name_split[3])
     print(single)
-    f = open('template.csv', 'a', newline='')
-    writer = csv.writer(f)
     writer.writerow([single, single, location_type, facility, isShipping, isReceiving, isHarvest, isHarvestPMove, isHarvestCMove])
     for converted_num in range(increments_int):
         num = converted_num + 1
         double_digit = f'{num:02d}'
         name_split[3] = double_digit
         answer = '-'.join(name_split)
-        # with open('test.csv', 'a') as f:
-        #     writer = csv.writer(f)
-        #     writer.writerow([answer])
         writer.writerow([answer, answer, location_type, facility, isShipping, isReceiving, isHarvest, isHarvestPMove, isHarvestCMove])
         print(answer)
-    f.close()
-        
-
-        
-
+f.close()
