@@ -1,6 +1,8 @@
 import PySimpleGUI as sg
 from tkinter import filedialog
 import csv
+result_arr = []
+
 location_types = ['Other', 'Finished Goods', 'Parts', 'Return To Vendor', 'Work In Progress', 'Scrapped']
 
 facilities = ['Augusta', 'IndBlvd', 'MH', 'NS', 'OR', 'Other' ]
@@ -88,7 +90,6 @@ def main():
             b2_list = list(b2_value)
             start = ord(a2_list.pop())
             end = ord(b2_list.pop())
-            result_arr = []
             for i in range(start, end+1):
                 letter = chr(i)
                 a2_list.append(letter)
@@ -131,13 +132,18 @@ def main():
                         inner_arr.append(harvestC)
                         result_arr.append(inner_arr)
             # print(result_arr)
+            if event == 'Generate Locations' and sg.popup_yes_no('Do you want to generate more locations',title='',location=window.CurrentLocation(), relative_location=(POPUP_CENTER_X,POPUP_CENTER_Y),keep_on_top=True) == 'Yes':
+                for x in ['-A1-', '-A2-', '-A3-', '-A4-', '-A5-', '-B1-', '-B2-', '-B3-', '-B4-', '-B5-']:
+                 window[x].update('')
+            else:
+                file_path = filedialog.asksaveasfilename(defaultextension='.csv')
+                with open(file_path, 'w', newline='') as outfile:
+                    writer = csv.writer(outfile)
+                    writer.writerow(headers)
+                    for x in result_arr:
+                        writer.writerow(x) 
 
-            file_path = filedialog.asksaveasfilename(defaultextension='.csv')
-            with open(file_path, 'w', newline='') as outfile:
-                writer = csv.writer(outfile)
-                writer.writerow(headers)
-                for x in result_arr:
-                    writer.writerow(x) 
+            
 
 if __name__  == '__main__':
     main()
